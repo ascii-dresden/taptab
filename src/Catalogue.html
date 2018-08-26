@@ -1,0 +1,46 @@
+<div>
+    <table class="table table-sm table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th colspan="3">Catalogue</th>
+        </tr>
+	</thead>
+	<tbody>
+		{#each Object.entries(catalogue) as [key, product], idx}
+        <tr on:click="fire('selectProduct', {product})">
+            <th scope="col">{idx + 1}</th>
+            <td>{product.name}</td>
+            <td>{formatPrice(product.price)}</td>
+        </tr>
+		{/each}
+	</tbody>
+    </table>
+</div>
+
+<script>
+	export default {
+		helpers: {
+			formatPrice: (price /*: number*/)/*: string*/ =>
+				price //&& price.toFixed(2).toString().replace('.',',') + `€`,
+
+			},
+			data: () => ({
+					catalogue: {
+						coffee: { name: "Kaffee", price: .80 },
+						mate: { name: 'Club Mate', price: 1.30 },
+						kolle: { name: 'Kolle Mate', price: 1.30 },
+						snickers: { name: 'Snickers', price: .60 },
+					}
+				}
+			),
+			methods: {
+				selectTab(tap) {
+					console.debug(tap)
+				},
+			},
+			computed: {
+
+		}
+
+	}
+</script>

@@ -1,0 +1,64 @@
+<table class="table table-sm table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th colspan="2"> {name} </th>
+        </tr>
+    </thead>
+    <tbody>
+    {#each Object.values(tap) as {name, price}}
+    <tr>
+        <td> {name} </td>
+        <td> {formatPrice(price)} </td>
+    </tr>
+    {/each}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>
+                <button
+                    on:click="fire('addToTap', {name})"
+                    class="btn btn-primary btn-sm"
+                    disabled="{selectedTap === name}"
+                     >edit</button>
+                <button
+                    on:click="fire('clearTap', {name})"
+                    class="btn btn-secondary btn-sm"
+                     >clear</button>
+            </td>
+            <td>{formatPrice(sum)} </td>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+    import Catalogue from './Catalogue.html';
+
+    export default {
+        helpers: {
+            formatPrice: (price /*: number*/)/*: string*/ =>
+                (typeof price === 'number') && price.toFixed(2).toString().replace('.',',') + `€`
+
+        },
+        methods: {
+            selectTab(tap) {
+                console.debug(tap)
+            },
+        },
+
+        computed: {
+            sum: ({tap}) => {
+                const prices = tap
+                    .map(({price}) => price)
+                    .filter(x => !!x);
+                if (prices.length > 0) {
+                    return prices
+                        .reduce((a, b) => a + b)
+                } else {
+                    return 0
+                }
+            }
+
+        }
+
+    }
+</script>

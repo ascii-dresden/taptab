@@ -1,0 +1,122 @@
+<style>
+    @import url("../node_modules/bootstrap/dist/css/bootstrap.min.css");
+    @import url("../node_modules/bootstrap/dist/css/bootstrap-reboot.min.css");
+</style>
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-sm">
+            {#each Object.entries(taps) as [name, tap]}
+                <Tap
+                    name="{name}"
+                    tap="{tap}"
+					selectedTap="{selectedTap}"
+                    on:addToTap="showCatalogue(event.name)"
+                    on:clearTap="clearTap(event.name)"
+                    />
+            {/each}
+
+            <div class="input-group input-group-sm mb-3">
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="guest name"
+                    aria-label="New Tap"
+                    aria-describedby="button-addon2"
+                    bind:value="newTapName">
+                <div class="input-group-append">
+                    <button class="btn btn-sm btn-success" on:click="addTap()">+</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm">
+        {#if selectedTap}
+
+        <Catalogue on:selectProduct="addToTap(event.product)"/>
+
+        <button on:click="unselectTap()">
+            reset selection
+            <span class="badge badge-success"> {selectedTap} </span>
+        </button>
+
+        {:else}
+        <span class="badge badge-danger">nothing selected</span>
+        {/if}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm"></div>
+    </div>
+    </div>
+
+<script>
+    import Tap from "./Tap.html";
+    import Catalogue from './Catalogue.html';
+    export default {
+        components: { Catalogue, Tap },
+        methods: {
+            showCatalogue(name) {
+                console.debug(`showing catalogue for ${name}`)
+                this.set({ selectedTap: name })
+            },
+
+            unselectTap() {
+                this.set({ selectedTap: null });
+            },
+
+            addTap() {
+                const { taps, newTapName } = this.get();
+
+                console.debug(`adding tap ${newTapName}`);
+
+                const update = {};
+                update[newTapName] = [];
+
+                this.set({
+                    taps: {
+                        ...taps,
+                        ...update
+                    }
+                })
+            },
+
+            addToTap(product) {
+                const { taps, selectedTap } = this.get();
+                if (selectedTap) {
+                    const update = {};
+                    update[selectedTap] = taps[selectedTap].concat(product);
+
+                    this.set({
+                        taps: {
+                            ...taps,
+                            ...update
+                        }
+                    })
+                }
+			},
+
+            clearTap(name) {
+				console.debug({ name })
+		        const { taps, selectedTap } = this.get();
+				const update = {};
+				update[name] = taps[name] = []
+
+				this.set({
+					taps: {
+						...taps,
+						...update
+					}
+				})
+			}
+
+        },
+        computed: {
+
+        }
+    }
+</script>
