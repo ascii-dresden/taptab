@@ -39,8 +39,8 @@
     </div>
 
     <div class="row">
-        {#if selectedTap}
         <div class="col-md-4">
+        {#if selectedTap}
 
         <Catalogue
             catalogue="{catalogue}"
@@ -52,8 +52,8 @@
             />
 
         <span class="badge badge-success"> {selectedTap} </span>
-        </div>
         {/if}
+        </div>
         <div class="col">
 
             <div class="row">
@@ -103,6 +103,7 @@
         methods: {
             splice,
             showCatalogue(name) {
+                clearTimeout(this.TIMEOUT);
                 console.debug(`showing catalogue for ${name}`)
                 this.set({ selectedTap: name })
             },
@@ -145,8 +146,9 @@
                         taps: {
                             ...taps,
                             ...update
-                        }
+                        },
                     })
+                    this.closeCatalogue(1500)
                 }
 			},
 
@@ -214,6 +216,14 @@
                 this.set({catalogue: [...catalogue]});
             },
 
+            closeCatalogue(timeout) {
+                console.debug(`closing Catalogue in ${timeout}ms`);
+                if (this.TIMEOUT) {
+                    clearTimeout(this.TIMEOUT);
+                }
+                this.TIMEOUT = setTimeout(() => {this.set({selectedTap: null})}, timeout)
+            },
+
             storeTaps() {
                 const { taps } = this.get();
                 localStorage.setItem('taps', JSON.stringify(taps));
@@ -225,11 +235,13 @@
             },
 
             resetAll() {
+
                 this.set({
                     selectedTap: null,
                     newTapName: null,
-                    taps: {}
-                })
+                    taps: {},
+                });
+                localStorage.clear();
             }
         },
 
