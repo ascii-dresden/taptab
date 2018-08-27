@@ -3,40 +3,21 @@
     @import url("../node_modules/bootstrap/dist/css/bootstrap-reboot.min.css");
 </style>
 
-<header class="header">
-    <div class="row">
-        <div class="col-sm">
-            <h2>TapTab</h2>
-        </div>
-
-        <div class="col-3">
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <button class="btn btn-sm btn-danger" on:click="resetAll()">&times; reset</button>
+<div class="container-fluid">
+    <header class="header">
+        <div class="row">
+            <div class="col-10">
+                <h2>TapTab</h2>
             </div>
-        </div>
-    </div>
-</header>
 
-<div class="container">
-
-    <div class="row">
-        <div class="col-sm">
-            <form on:submit="addTap()">
-            <div class="input-group input-group-sm mb-3">
-                <input
-                    type="text"
-                    class="form-control"
-                    placeholder="guest name"
-                    aria-label="New Tap"
-                    aria-describedby="button-addon2"
-                    bind:value="newTapName">
-                <div class="input-group-append">
-                    <button class="btn btn-sm btn-success" on:click="addTap()">+</button>
+            <div class="col-1">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <button class="btn btn-sm btn-danger" on:click="resetAll()">&times; reset</button>
                 </div>
             </div>
-            </form>
         </div>
-    </div>
+    </header>
+
 
     <div class="row">
         <div class="col-md-4">
@@ -56,6 +37,24 @@
         </div>
         <div class="col">
 
+            <div class="row justify-content-xl-center">
+                <div class="col-md-12 col-xl-8">
+                    <form on:submit="addTap()">
+                    <div class="input-group input-group-sm mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="guest name"
+                            aria-label="New Tap"
+                            aria-describedby="button-addon2"
+                            bind:value="newTapName">
+                        <div class="input-group-append">
+                            <button class="btn btn-sm btn-success" on:click="addTap()">+</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
             <div class="row">
                 {#each Object.entries(taps) as [name, tap]}
                 <div class="col-xl-6 col-md-6 col-sm-12">
