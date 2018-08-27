@@ -21,14 +21,14 @@
 				<tr>
 					<th scope="col">{idx + 1}</th>
 					<td class="clickable" on:click="fire('selectProduct', {product})">{product.name}</td>
-					<td class="number">{formatPrice(product.price)}</td>
-
-					<td>
+					<td class="number">
 						<button
 							aria-hidden="true"
-							class="btn btn-sm btn-light btn-borderless"
+							class="btn btn-sm btn-outline-light btn-borderless"
 							on:click="fire('removeCatalogueIdx', {idx})"
 						>&times;</button>
+
+						{formatPrice(product.price)}
 					</td>
 				</tr>
 				{/each}

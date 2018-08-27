@@ -25,40 +25,53 @@
 
     <div class="card-body taplist">
 
-        <table class="table table-sm table-striped table-borderless">
+        <table class="table table-sm table-borderless">
             <tbody>
             {#each Object.values(tap) as {name: product, price}, idx}
             <tr>
-                <td> {product} </td>
-                <td class="number"> {formatPrice(price)} </td>
-					<td>
-						<button
-							aria-hidden="true"
-							class="btn btn-sm btn-light btn-borderless"
-							on:click="fire('deleteTapEntry', {name, idx})"
-						>&times;</button>
-					</td>
+                <td>
+                {product}
+                </td>
+                <td class="number"> <button
+                        aria-hidden="true"
+                        class="btn btn-sm btn-outline-light btn-borderless"
+                        on:click="fire('deleteTapEntry', {name, idx})"
+                    >&times;</button>
+                {formatPrice(price)} </td>
             </tr>
             {/each}
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4" class="number">{formatPrice(sum)}</td>
+                    <td>
+                    {#if Object.values(tap).length > 0}
+                        <button
+                            on:click="fire('clearTap', {name})"
+                            class="btn btn-outline-danger btn-sm"
+                            >&times; clear</button>
+                    {:else}
+                        <small class="text-muted">Nothing yet</small>
+                    {/if}
+                    </td>
+                    <td colspan="3" class="number">{formatPrice(sum)}</td>
                 </tr>
             </tfoot>
         </table>
 
     </div>
     <div class="card-footer text-muted">
+        {#if selectedTap !== name}
         <button
             on:click="fire('addToTap', {name})"
             class="btn btn-primary btn-sm"
-            disabled="{selectedTap === name}"
-            >+</button>
+            >+ add</button>
+        {:else}
         <button
-            on:click="fire('clearTap', {name})"
-            class="btn btn-outline-danger btn-sm"
-            >&times; clear</button>
+            on:click="fire('addToTap', {name})"
+            class="btn btn-outline-primary btn-sm"
+            disabled
+            >+ add</button>
+        {/if}
     </div>
 </div>
 
