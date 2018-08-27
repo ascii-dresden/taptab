@@ -1,3 +1,3 @@
-# Tap Tap
+# Tap Tab
 
-screw todos: keep your café's tap in a single tap
+screw todos: keep your café's tap in a single tab

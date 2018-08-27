@@ -19,9 +19,19 @@ const app = new App({
 
 		catalogue: [
 			 { name: "Kaffee", price: .80 },
-			 { name: 'Club Mate', price: 1.30 },
-			 { name: 'Kolle Mate', price: 1.30 },
-			 { name: 'Snickers', price: .60 },
+			 { name: "Milchkaffee", price: 1.00 },
+			 { name: "Großer Latte", price: 1.20 },
+			 { name: "Tasse", price: .80 },
+			 { name: "Limo", price: 1.50 },
+			 { name: "Limo", price: 1.10 },
+			 { name: "Riegel", price: .60 },
+			 { name: "Riegel", price: .80 },
+			 { name: "Riegel", price: .50 },
+			 { name: "Riegel", price: .30 },
+			 { name: "Bagel", price: 2.30 },
+			 { name: "Brötchen", price: 1.40 },
+			 { name: "Kuchen", price: 1.00 },
+			 { name: "Muffin", price: 1.20 },
 		],
 
 		newCatalogueItem: {

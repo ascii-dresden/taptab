@@ -56,9 +56,9 @@
         {/if}
         <div class="col">
 
-            <div class="row" style="max-height: 800px; overflow:scroll;">
+            <div class="row">
                 {#each Object.entries(taps) as [name, tap]}
-                <div class="col-xl-4 col-md-6 col-sm-12">
+                <div class="col-xl-6 col-md-6 col-sm-12">
                     <Tap
                         name="{name}"
                         tap="{tap}"
