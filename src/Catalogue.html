@@ -1,5 +1,5 @@
 <style>
-	table tr {
+	.clickable{
 		cursor: pointer;
 	}
 </style>
@@ -13,38 +13,46 @@
             on:click="fire('close')">
             <span aria-hidden="true">&times;</span>
         </button>
-		<h3 class="card-title"> Catalogue </h3>
+		<h3 class="card-title"> Products </h3>
 
 		<table class="table table-sm table-striped">
 			<tbody>
 				{#each catalogue as product, idx}
-				<tr on:click="fire('selectProduct', {product})">
+				<tr>
 					<th scope="col">{idx + 1}</th>
-					<td>{product.name}</td>
-					<td>{formatPrice(product.price)}</td>
+					<td class="clickable" on:click="fire('selectProduct', {product})">{product.name}</td>
+					<td class="number">{formatPrice(product.price)}</td>
+
+					<td>
+						<button
+							aria-hidden="true"
+							class="btn btn-sm btn-light btn-borderless"
+							on:click="fire('removeCatalogueIdx', {idx})"
+						>&times;</button>
+					</td>
 				</tr>
 				{/each}
 			</tbody>
 		</table>
 	</div>
 	<div class="card-footer">
-		<div class="input-group input-group-sm mb-3">
-			<input
-				type="text"
-				class="form-control"
-				placeholder="name"
-				bind:value="newCatalogueItem.name"
-				>
-			<input
-				type="text"
-				class="form-control"
-				placeholder="price"
-				bind:value="newCatalogueItem.price"
-				>
-			<div class="input-group-append">
-				<button class="btn btn-sm btn-success" on:click="fire('addToCatalogue')">+</button>
+			<div class="input-group input-group-sm mb-3">
+				<input
+					type="text"
+					class="form-control"
+					placeholder="name"
+					bind:value="newCatalogueItem.name"
+					>
+				<input
+					type="text"
+					class="form-control"
+					placeholder="price"
+					bind:value="newCatalogueItem.price"
+					>
+				<div class="input-group-append">
+					<button class="btn btn-sm btn-success" on:click="fire('addToCatalogue')">+</button>
+				</div>
 			</div>
-		</div>
 	</div>
 </div>
 

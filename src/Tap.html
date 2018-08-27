@@ -12,7 +12,7 @@
 <div class="card" transition:slide>
 
     <h5 class="card-header">
-        {name}
+        {name} ({formatPrice(sum)})
     <button
         type="button"
         class="close"
@@ -30,14 +30,20 @@
             {#each Object.values(tap) as {name: product, price}, idx}
             <tr>
                 <td> {product} </td>
-                <td> {formatPrice(price)} </td>
+                <td class="number"> {formatPrice(price)} </td>
+					<td>
+						<button
+							aria-hidden="true"
+							class="btn btn-sm btn-light btn-borderless"
+							on:click="fire('deleteTapEntry', {name, idx})"
+						>&times;</button>
+					</td>
             </tr>
             {/each}
             </tbody>
             <tfoot>
                 <tr>
-                    <td> </td>
-                    <td>{formatPrice(sum)} </td>
+                    <td colspan="4" class="number">{formatPrice(sum)}</td>
                 </tr>
             </tfoot>
         </table>
@@ -48,11 +54,11 @@
             on:click="fire('addToTap', {name})"
             class="btn btn-primary btn-sm"
             disabled="{selectedTap === name}"
-            >edit</button>
+            >+</button>
         <button
             on:click="fire('clearTap', {name})"
-            class="btn btn-secondary btn-sm"
-            >clear</button>
+            class="btn btn-outline-danger btn-sm"
+            >&times; clear</button>
     </div>
 </div>
 

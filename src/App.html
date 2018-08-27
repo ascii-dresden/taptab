@@ -3,10 +3,19 @@
     @import url("../node_modules/bootstrap/dist/css/bootstrap-reboot.min.css");
 </style>
 
-<header>
-<h2>TapTap</h2>
-</header>
+    <header class="header">
+    <div class="row">
+        <div class="col-sm">
+            <h2>TapTab</h2>
+        </div>
 
+        <div class="col-3">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <button class="btn btn-sm btn-danger" on:click="resetAll()">&times; reset</button>
+            </div>
+        </div>
+    </div>
+    </header>
 
 <div class="container">
 
@@ -25,6 +34,7 @@
                     />
             {/each}
 
+            <form on:submit="addTap()">
             <div class="input-group input-group-sm mb-3">
                 <input
                     type="text"
@@ -37,6 +47,7 @@
                     <button class="btn btn-sm btn-success" on:click="addTap()">+</button>
                 </div>
             </div>
+            </form>
 
         </div>
 
@@ -48,6 +59,7 @@
             on:selectProduct="addToTap(event.product)"
             on:addToCatalogue="addToCatalogue()"
             on:close="unselectTap()"
+            on:removeCatalogueIdx="deleteCatalogueEntry(event)"
             bind:newCatalogueItem="newCatalogueItem"
             />
 
@@ -57,13 +69,6 @@
     </div>
 
     </div>
-    <footer class="footer">
-    <div class="row">
-        <div class="col-sm">
-            <button class="btn btn-danger" on:click="resetAll()">RESET</button>
-        </div>
-    </div>
-    </footer>
 
 <script>
     import { splice } from 'svelte-extras';
@@ -73,15 +78,17 @@
         components: { Catalogue, Tap },
 
         oncreate() {
-            const stored = JSON.parse(localStorage.getItem('taptap'));
-            console.info('oncreate', {stored});
-            this.set(stored);
+            const {taps, catalogue} = this.get();
+            const storedTaps = JSON.parse(localStorage.getItem('taps')) || {};
+            const storedCatalogue = JSON.parse(localStorage.getItem('catalogue')) || catalogue;
+            console.info('oncreate', {taps, catalogue, storedTaps, storedCatalogue});
+            this.set({taps: storedTaps, catalogue: [...storedCatalogue]});
         },
 
-        onupdate: ({current}) => {
+        onupdate({current}) {
             const {catalogue, taps} = current;
-            console.debug('onupdate', catalogue);
-            localStorage.setItem('taptap', JSON.stringify(current));
+            this.storeTaps();
+            this.storeCatalogue();
         },
 
         methods: {
@@ -102,7 +109,7 @@
 
                 if (Object.keys(taps).indexOf(newTapName) >= 0) {
                     console.warn(`can't add ${newTapName} again`);
-                    return
+                    return false
                 }
 
                 const update = {};
@@ -113,7 +120,9 @@
                         ...taps,
                         ...update
                     }
-                })
+                });
+                this.storeTaps()
+                return false;
             },
 
             addToTap(product) {
@@ -133,6 +142,15 @@
 			},
 
             deleteTapEntry({ name, idx }) {
+                console.debug('deleteTapEntry', {name, idx});
+                const {taps} = this.get();
+                const tap = taps[name];
+                tap.splice(idx, 1);
+                const update = {...taps};
+                update[name] = [...tap]
+
+                console.dir({taps, update})
+                this.set({ taps: update});
             },
 
             clearTap(name) {
@@ -145,7 +163,8 @@
 					taps: {
 						...taps,
 						...update
-					}
+                    },
+                    selectedTap: null,
 				})
             },
 
@@ -156,7 +175,8 @@
 				delete update[name];
 
 				this.set({
-					taps: update
+					taps: update,
+                    selectedTap: null,
 				})
 			},
 
@@ -164,22 +184,37 @@
 				const { newCatalogueItem, catalogue } = this.get();
 				const { name, price } = newCatalogueItem;
 
-				console.table(catalogue)
-				console.table({newCatalogueItem})
+                let parsedPrice = null;
 				try {
-					const parsedPrice = Number.parseFloat(price);
-					if (typeof name === 'string') {
-						this.set({ newCatalogueItem: { name: null, price: null } })
-						this.set({catalogue: [...catalogue, {name, price: parsedPrice}]});
-						console.debug("updated catalogue")
-						console.table(catalogue)
-					} else {
-						console.error("not valid")
-					}
+					parsedPrice = Number.parseFloat(price);
 				} catch (error) {
 					console.error("no valid price", {error})
 				}
+                if (typeof name === 'string' && typeof parsedPrice === 'number' && !Number.isNaN(parsedPrice)) {
+                    this.set({ newCatalogueItem: { name: null, price: null } })
+                    this.set({catalogue: [...catalogue, {name, price: parsedPrice}]});
+                    this.storeCatalogue();
+                } else {
+                }
             },
+
+            deleteCatalogueEntry({idx}) {
+                const {catalogue} = this.get();
+                console.debug({deleteCatalogueEntry: {idx}, catalogue})
+                catalogue.splice(idx,1);
+                this.set({catalogue: [...catalogue]});
+            },
+
+            storeTaps() {
+                const { taps } = this.get();
+                localStorage.setItem('taps', JSON.stringify(taps));
+            },
+
+            storeCatalogue() {
+                const { catalogue } = this.get();
+                localStorage.setItem('catalogue', JSON.stringify(catalogue));
+            },
+
             resetAll() {
                 this.set({
                     selectedTap: null,
