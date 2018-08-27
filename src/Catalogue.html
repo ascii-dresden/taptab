@@ -1,44 +1,73 @@
-<div>
-    <table class="table table-sm table-striped">
-    <thead class="thead-dark">
-        <tr>
-            <th colspan="3">Catalogue</th>
-        </tr>
-	</thead>
-	<tbody>
-		{#each Object.entries(catalogue) as [key, product], idx}
-        <tr on:click="fire('selectProduct', {product})">
-            <th scope="col">{idx + 1}</th>
-            <td>{product.name}</td>
-            <td>{formatPrice(product.price)}</td>
-        </tr>
-		{/each}
-	</tbody>
-    </table>
+<style>
+	table tr {
+		cursor: pointer;
+	}
+</style>
+
+<div class="card" transition:slide>
+	<div class="card-body">
+        <button
+            type="button"
+            class="close"
+            title="Close"
+            on:click="fire('close')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+		<h3 class="card-title"> Catalogue </h3>
+
+		<table class="table table-sm table-striped">
+			<tbody>
+				{#each catalogue as product, idx}
+				<tr on:click="fire('selectProduct', {product})">
+					<th scope="col">{idx + 1}</th>
+					<td>{product.name}</td>
+					<td>{formatPrice(product.price)}</td>
+				</tr>
+				{/each}
+			</tbody>
+		</table>
+	</div>
+	<div class="card-footer">
+		<div class="input-group input-group-sm mb-3">
+			<input
+				type="text"
+				class="form-control"
+				placeholder="name"
+				bind:value="newCatalogueItem.name"
+				>
+			<input
+				type="text"
+				class="form-control"
+				placeholder="price"
+				bind:value="newCatalogueItem.price"
+				>
+			<div class="input-group-append">
+				<button class="btn btn-sm btn-success" on:click="fire('addToCatalogue')">+</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script>
+	import { slide } from 'svelte-transitions';
+
 	export default {
 		helpers: {
 			formatPrice: (price /*: number*/)/*: string*/ =>
-				price //&& price.toFixed(2).toString().replace('.',',') + `€`,
+				(typeof price === 'number') && price.toFixed(2).toString().replace('.', ',') + `€`
+		},
 
+		methods: {
+			selectTab(tap) {
+				console.debug(tap)
 			},
-			data: () => ({
-					catalogue: {
-						coffee: { name: "Kaffee", price: .80 },
-						mate: { name: 'Club Mate', price: 1.30 },
-						kolle: { name: 'Kolle Mate', price: 1.30 },
-						snickers: { name: 'Snickers', price: .60 },
-					}
-				}
-			),
-			methods: {
-				selectTab(tap) {
-					console.debug(tap)
-				},
-			},
-			computed: {
+		},
+
+		transitions: {
+			slide
+		},
+
+		computed: {
 
 		}
 

@@ -1,36 +1,63 @@
-<table class="table table-sm table-striped">
-    <thead class="thead-dark">
-        <tr>
-            <th colspan="2"> {name} </th>
-        </tr>
-    </thead>
-    <tbody>
-    {#each Object.values(tap) as {name, price}}
-    <tr>
-        <td> {name} </td>
-        <td> {formatPrice(price)} </td>
-    </tr>
-    {/each}
-    </tbody>
-    <tfoot>
-        <tr>
-            <td>
-                <button
-                    on:click="fire('addToTap', {name})"
-                    class="btn btn-primary btn-sm"
-                    disabled="{selectedTap === name}"
-                     >edit</button>
-                <button
-                    on:click="fire('clearTap', {name})"
-                    class="btn btn-secondary btn-sm"
-                     >clear</button>
-            </td>
-            <td>{formatPrice(sum)} </td>
-        </tr>
-    </tfoot>
-</table>
+<style>
+    button.close {
+        float: right
+    }
+
+    .taplist {
+        max-height: 200px;
+        overflow:scroll;
+    }
+</style>
+
+<div class="card" transition:slide>
+
+    <h5 class="card-header">
+        {name}
+    <button
+        type="button"
+        class="close"
+        title="Close"
+        on:click="fire('close', {name})">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+    </h5>
+
+    <div class="card-body taplist">
+
+        <table class="table table-sm table-striped table-borderless">
+            <tbody>
+            {#each Object.values(tap) as {name: product, price}, idx}
+            <tr>
+                <td> {product} </td>
+                <td> {formatPrice(price)} </td>
+            </tr>
+            {/each}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td> </td>
+                    <td>{formatPrice(sum)} </td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
+    <div class="card-footer text-muted">
+        <button
+            on:click="fire('addToTap', {name})"
+            class="btn btn-primary btn-sm"
+            disabled="{selectedTap === name}"
+            >edit</button>
+        <button
+            on:click="fire('clearTap', {name})"
+            class="btn btn-secondary btn-sm"
+            >clear</button>
+    </div>
+</div>
 
 <script>
+    import { slide } from 'svelte-transitions';
     import Catalogue from './Catalogue.html';
 
     export default {
@@ -45,6 +72,9 @@
             },
         },
 
+		transitions: {
+			slide
+		},
         computed: {
             sum: ({tap}) => {
                 const prices = tap

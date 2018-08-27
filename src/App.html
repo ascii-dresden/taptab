@@ -3,6 +3,11 @@
     @import url("../node_modules/bootstrap/dist/css/bootstrap-reboot.min.css");
 </style>
 
+<header>
+<h2>TapTap</h2>
+</header>
+
+
 <div class="container">
 
     <div class="row">
@@ -15,6 +20,8 @@
 					selectedTap="{selectedTap}"
                     on:addToTap="showCatalogue(event.name)"
                     on:clearTap="clearTap(event.name)"
+                    on:close="closeTap(event.name)"
+                    on:deleteTapEntry="deleteTapEntry(event)"
                     />
             {/each}
 
@@ -36,30 +43,49 @@
         <div class="col-sm">
         {#if selectedTap}
 
-        <Catalogue on:selectProduct="addToTap(event.product)"/>
+        <Catalogue
+            catalogue="{catalogue}"
+            on:selectProduct="addToTap(event.product)"
+            on:addToCatalogue="addToCatalogue()"
+            on:close="unselectTap()"
+            bind:newCatalogueItem="newCatalogueItem"
+            />
 
-        <button on:click="unselectTap()">
-            reset selection
-            <span class="badge badge-success"> {selectedTap} </span>
-        </button>
-
-        {:else}
-        <span class="badge badge-danger">nothing selected</span>
+        <span class="badge badge-success"> {selectedTap} </span>
         {/if}
         </div>
     </div>
 
+    </div>
+    <footer class="footer">
     <div class="row">
-        <div class="col-sm"></div>
+        <div class="col-sm">
+            <button class="btn btn-danger" on:click="resetAll()">RESET</button>
+        </div>
     </div>
-    </div>
+    </footer>
 
 <script>
+    import { splice } from 'svelte-extras';
     import Tap from "./Tap.html";
     import Catalogue from './Catalogue.html';
     export default {
         components: { Catalogue, Tap },
+
+        oncreate() {
+            const stored = JSON.parse(localStorage.getItem('taptap'));
+            console.info('oncreate', {stored});
+            this.set(stored);
+        },
+
+        onupdate: ({current}) => {
+            const {catalogue, taps} = current;
+            console.debug('onupdate', catalogue);
+            localStorage.setItem('taptap', JSON.stringify(current));
+        },
+
         methods: {
+            splice,
             showCatalogue(name) {
                 console.debug(`showing catalogue for ${name}`)
                 this.set({ selectedTap: name })
@@ -74,6 +100,11 @@
 
                 console.debug(`adding tap ${newTapName}`);
 
+                if (Object.keys(taps).indexOf(newTapName) >= 0) {
+                    console.warn(`can't add ${newTapName} again`);
+                    return
+                }
+
                 const update = {};
                 update[newTapName] = [];
 
@@ -86,6 +117,7 @@
             },
 
             addToTap(product) {
+                console.debug("addToTap", {product})
                 const { taps, selectedTap } = this.get();
                 if (selectedTap) {
                     const update = {};
@@ -100,6 +132,9 @@
                 }
 			},
 
+            deleteTapEntry({ name, idx }) {
+            },
+
             clearTap(name) {
 				console.debug({ name })
 		        const { taps, selectedTap } = this.get();
@@ -112,11 +147,49 @@
 						...update
 					}
 				})
-			}
+            },
 
+            closeTap(name) {
+				console.debug({ name })
+		        const { taps, selectedTap } = this.get();
+				const update = {...taps};
+				delete update[name];
+
+				this.set({
+					taps: update
+				})
+			},
+
+			addToCatalogue() {
+				const { newCatalogueItem, catalogue } = this.get();
+				const { name, price } = newCatalogueItem;
+
+				console.table(catalogue)
+				console.table({newCatalogueItem})
+				try {
+					const parsedPrice = Number.parseFloat(price);
+					if (typeof name === 'string') {
+						this.set({ newCatalogueItem: { name: null, price: null } })
+						this.set({catalogue: [...catalogue, {name, price: parsedPrice}]});
+						console.debug("updated catalogue")
+						console.table(catalogue)
+					} else {
+						console.error("not valid")
+					}
+				} catch (error) {
+					console.error("no valid price", {error})
+				}
+            },
+            resetAll() {
+                this.set({
+                    selectedTap: null,
+                    newTapName: null,
+                    taps: {}
+                })
+            }
         },
-        computed: {
 
+        computed: {
         }
     }
 </script>
