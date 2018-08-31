@@ -21,7 +21,6 @@ const app = new App({
 			 { name: "Kaffee", price: .80 },
 			 { name: "Milchkaffee", price: 1.00 },
 			 { name: "Großer Latte", price: 1.20 },
-			 { name: "Tasse", price: 1.00 },
 			 { name: "Hackerbrause", price: 1.50 },
 			 { name: "Limo", price: 1.10 },
 			 { name: "Riegel", price: .80 },
