@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Item } from './model';
+import { Item, Person } from './model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +25,25 @@ export class AppService {
 
   private setItems(items: Item[]): void {
     localStorage.setItem('taptab', JSON.stringify({ items: items }));
+  }
+
+  getPersons(): Person[] {
+    const taptab = JSON.parse(localStorage.getItem('taptab'));
+    return taptab ? [] : taptab['persons'];
+  }
+
+  addPerson(person: Person): void {
+    const persons: Person[] = this.getPersons();
+    persons.push(person);
+    this.setPerson(persons);
+  }
+
+  remotePerson(person: Person): void {
+    const persons: Person[] = this.getPersons();
+    this.setPerson(persons.filter((value: Person) => person !== value));
+  }
+
+  private setPerson(persons: Person[]): void {
+    localStorage.setItem('taptab', JSON.stringify({ persons: persons }));
   }
 }
