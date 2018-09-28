@@ -1,6 +1,6 @@
 import { Item } from './item';
 
-export class Person {
+export class Tap {
   name: string;
   items: Item[];
 }

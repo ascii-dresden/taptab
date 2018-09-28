@@ -1,49 +1,47 @@
 import { Injectable } from '@angular/core';
 
-import { Item, Person } from './model';
+import { Item, Tap } from './model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
 
-  getItems(): Item[] {
-    const taptab = JSON.parse(localStorage.getItem('taptab'));
-    return taptab ? [] : taptab['items'];
+  getCatalog(): Item[] {
+    return JSON.parse(localStorage.getItem('catalog')) || [];
   }
 
   addItem(item: Item): void {
-    const items: Item[] = this.getItems();
-    items.push(item);
-    this.setItems(items);
+    const catalog: Item[] = this.getCatalog();
+    catalog.push(item);
+    this.setItems(catalog);
   }
 
-  remoteItem(item: Item): void {
-    const items: Item[] = this.getItems();
-    this.setItems(items.filter((value: Item) => item !== value));
+  removeItem(item: Item): void {
+    const catalog: Item[] = this.getCatalog();
+    this.setItems(catalog.filter((value: Item) => item !== value));
   }
 
-  private setItems(items: Item[]): void {
-    localStorage.setItem('taptab', JSON.stringify({ items: items }));
+  private setItems(catalog: Item[]): void {
+    localStorage.setItem('catalog', JSON.stringify(catalog));
   }
 
-  getPersons(): Person[] {
-    const taptab = JSON.parse(localStorage.getItem('taptab'));
-    return taptab ? [] : taptab['persons'];
+  getTaps(): Tap[] {
+    return JSON.parse(localStorage.getItem('taps')) || [];
   }
 
-  addPerson(person: Person): void {
-    const persons: Person[] = this.getPersons();
-    persons.push(person);
-    this.setPerson(persons);
+  addTap(tap: Tap): void {
+    const taps: Tap[] = this.getTaps();
+    taps.push(tap);
+    this.setTaps(taps);
   }
 
-  remotePerson(person: Person): void {
-    const persons: Person[] = this.getPersons();
-    this.setPerson(persons.filter((value: Person) => person !== value));
+  removeTap(tap: Tap): void {
+    const taps: Tap[] = this.getTaps();
+    this.setTaps(taps.filter((value: Tap) => tap !== value));
   }
 
-  private setPerson(persons: Person[]): void {
-    localStorage.setItem('taptab', JSON.stringify({ persons: persons }));
+  private setTaps(taps: Tap[]): void {
+    localStorage.setItem('taps', JSON.stringify(taps));
   }
 }
