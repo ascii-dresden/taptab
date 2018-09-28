@@ -5,7 +5,7 @@ import { Item } from './model';
 @Injectable({
   providedIn: 'root'
 })
-export class CatalogService {
+export class AppService {
 
   getItems(): Item[] {
     const taptab = JSON.parse(localStorage.getItem('taptab'));
