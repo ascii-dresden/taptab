@@ -1,19 +1,36 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<mat-toolbar role="navigation" class="mat-elevation-z2">
+  TapTab
+  <!--span style="flex: 1 1 auto;"></span>
+  <button mat-icon-button>
+    <mat-icon aria-label="Add person">add</mat-icon>
+  </button-->
+</mat-toolbar>
+
+<main style="padding-top: 1rem">
+  <mat-accordion displayMode="flat" multi="true">
+    <mat-expansion-panel *ngFor="let tap of taps">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ tap.name }}</mat-panel-title>
+        <mat-panel-description>{{ getTotal(tap) | currency }}</mat-panel-description>
+      </mat-expansion-panel-header>
+      <div mat-expansion-panel-content>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let item of tap.items">
+            {{ item.name }}
+            <span style="flex: 1 1 auto;"></span>
+            <span class="item-price">{{ item.price | currency }}</span>
+          </mat-list-item>
+        </mat-list>
+        <mat-divider></mat-divider>
+        <div class="item-sum-container">
+          <span style="color: rgba(0,0,0,.54)">TOTAL</span>
+          <span style="font-size: 24px">{{ getTotal(tap) | currency }}</span>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</main>
+
+<button mat-fab id="fab-add">
+  <mat-icon aria-label="Add person">add</mat-icon>
+</button>

@@ -2,3 +2,26 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Roboto', sans-serif; }
+
+#fab-add {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+}
+
+mat-accordion .mat-divider {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.item-price {
+  font-size: 12px
+}
+
+.item-sum-container {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 16px;
+  margin-right: 16px;
+  line-height: 48px;
+}
