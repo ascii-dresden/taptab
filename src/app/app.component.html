@@ -1,9 +1,13 @@
-<mat-toolbar role="navigation" class="mat-elevation-z2">
-  TapTab
-  <!--span style="flex: 1 1 auto;"></span>
-  <button mat-icon-button>
-    <mat-icon aria-label="Add person">add</mat-icon>
-  </button-->
+<mat-toolbar id="header" role="navigation" class="mat-elevation-z2" [style.backgroundColor]="showNewTapInput ? '#ffffff' : ''">
+  <h1 [style.display]="showNewTapInput ? 'none' : 'flex'">TapTab</h1>
+  <form (ngSubmit)="onSubmit()" #newTapForm="ngForm" [style.display]="showNewTapInput ? 'flex' : 'none'">
+    <input #newTap #name="ngModel" id="tap-add-input" name="name" type="text" [(ngModel)]="newTapName">
+    <button type="submit" style="display: none">Submit</button>
+  </form>
+  <button mat-icon-button style="margin-left: auto;" (click)="toggleNewTapInput()">
+    <mat-icon aria-label="Add tap" *ngIf="!showNewTapInput">add</mat-icon>
+    <mat-icon aria-label="Add tap" *ngIf="showNewTapInput">close</mat-icon>
+  </button>
 </mat-toolbar>
 
 <main style="padding-top: 1rem">
@@ -30,7 +34,3 @@
     </mat-expansion-panel>
   </mat-accordion>
 </main>
-
-<button mat-fab id="fab-add">
-  <mat-icon aria-label="Add person">add</mat-icon>
-</button>

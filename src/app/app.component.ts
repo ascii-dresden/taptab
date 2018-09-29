@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { AppService } from './app.service';
 import { Tap } from './model';
@@ -8,8 +9,13 @@ import { Tap } from './model';
   templateUrl: './app.component.html',
   styles: []
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewChecked {
 
+  @ViewChild('newTap') input: ElementRef;
+  @ViewChild('newTapForm') form: NgForm;
+  newTapName: string;
+
+  showNewTapInput = false;
   taps: Tap[] = [];
 
   constructor(private service: AppService) { }
@@ -18,8 +24,31 @@ export class AppComponent implements OnInit {
     this.loadTaps();
   }
 
+  ngAfterViewChecked(): void {
+    if (this.showNewTapInput) {
+      this.input.nativeElement.focus();
+    }
+  }
+
+  toggleNewTapInput() {
+    this.showNewTapInput = !this.showNewTapInput;
+  }
+
+  onSubmit() {
+    if (this.newTapName) {
+      this.service.addTap(this.newTapName);
+      this.newTapName = '';
+    }
+    this.toggleNewTapInput();
+    this.loadTaps();
+  }
+
   getTotal(tap: Tap): number {
-    return tap.items.map(item => item.price).reduce((a, b) => a + b) || 0;
+    if (tap.items.length > 0) {
+      return tap.items.map(item => item.price).reduce((a, b) => a + b) || 0;
+    } else {
+      return 0;
+    }
   }
 
   private loadTaps(): void {

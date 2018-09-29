@@ -30,9 +30,9 @@ export class AppService {
     return JSON.parse(localStorage.getItem('taps')) || [];
   }
 
-  addTap(tap: Tap): void {
+  addTap(name: string): void {
     const taps: Tap[] = this.getTaps();
-    taps.push(tap);
+    taps.push({ name: name, items: [] } as Tap);
     this.setTaps(taps);
   }
 

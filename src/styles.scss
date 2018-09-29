@@ -3,10 +3,28 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Roboto', sans-serif; }
 
-#fab-add {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
+#header.mat-toolbar {
+  h1 {
+    display: flex;
+  }
+
+  form {
+    display: none;
+    flex: 1;
+    position: relative;
+    padding-right: 16px;
+  }
+
+  input {
+    flex: 1;
+    outline: none;
+    border: 0;
+    height: 64px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    font-size: 24px;
+  }
 }
 
 mat-accordion .mat-divider {
