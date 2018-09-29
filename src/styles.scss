@@ -24,6 +24,10 @@ body { margin: 0; font-family: 'Roboto', sans-serif; }
     padding: 0;
     position: relative;
     font-size: 24px;
+
+    @media screen and (max-width: 600px) {
+      height: 56px;
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 <mat-toolbar id="header" role="navigation" class="mat-elevation-z2" [style.backgroundColor]="showNewTapInput ? '#ffffff' : ''">
   <h1 [style.display]="showNewTapInput ? 'none' : 'flex'">TapTab</h1>
   <form (ngSubmit)="onSubmit()" #newTapForm="ngForm" [style.display]="showNewTapInput ? 'flex' : 'none'">
-    <input #newTap #name="ngModel" id="tap-add-input" name="name" type="text" [(ngModel)]="newTapName">
+    <input #newTap #name="ngModel" id="tap-add-input" name="name" type="text" placeholder="New Tap" [(ngModel)]="newTapName">
     <button type="submit" style="display: none">Submit</button>
   </form>
   <button mat-icon-button style="margin-left: auto;" (click)="toggleNewTapInput()">
