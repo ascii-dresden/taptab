@@ -9,14 +9,18 @@ import {
   MatExpansionModule,
   MatListModule,
   MatDividerModule,
+  MatDialogModule,
+  MatTableModule,
 } from '@angular/material';
 
 import { AppService } from './app.service';
 import { AppComponent } from './app.component';
+import { ItemSelectionDialogComponent } from './item-selection.dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ItemSelectionDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,8 +32,11 @@ import { AppComponent } from './app.component';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
+    MatDialogModule,
+    MatTableModule,
   ],
   providers: [AppService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ItemSelectionDialogComponent]
 })
 export class AppModule { }

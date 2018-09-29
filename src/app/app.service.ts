@@ -36,6 +36,16 @@ export class AppService {
     this.setTaps(taps);
   }
 
+  addItem2Tap(tap: Tap, item: Item): void {
+    const taps: Tap[] = this.getTaps();
+    this.setTaps(taps.map((value: Tap) => {
+      if (tap.name === value.name) {
+        value.items.push(item);
+      }
+      return value;
+    }));
+  }
+
   removeTap(tap: Tap): void {
     const taps: Tap[] = this.getTaps();
     this.setTaps(taps.filter((value: Tap) => tap !== value));

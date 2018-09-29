@@ -1,15 +1,21 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+
+import { Subscription } from 'rxjs';
 
 import { AppService } from './app.service';
-import { Tap } from './model';
+import { Tap, Item } from './model';
+import { ItemSelectionDialogComponent } from './item-selection.dialog.component';
 
 @Component({
   selector: 'ascii-root',
   templateUrl: './app.component.html',
   styles: []
 })
-export class AppComponent implements OnInit, AfterViewChecked {
+export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
+
+  private _subscription = new Subscription();
 
   @ViewChild('newTap') input: ElementRef;
   @ViewChild('newTapForm') form: NgForm;
@@ -18,7 +24,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
   showNewTapInput = false;
   taps: Tap[] = [];
 
-  constructor(private service: AppService) { }
+  constructor(private service: AppService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadTaps();
@@ -28,6 +34,10 @@ export class AppComponent implements OnInit, AfterViewChecked {
     if (this.showNewTapInput) {
       this.input.nativeElement.focus();
     }
+  }
+
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
   }
 
   toggleNewTapInput() {
@@ -49,6 +59,17 @@ export class AppComponent implements OnInit, AfterViewChecked {
     } else {
       return 0;
     }
+  }
+
+  addItem(tap: Tap) {
+    const dialogRef = this.dialog.open(ItemSelectionDialogComponent, { width: '640px' });
+
+    this._subscription.add(dialogRef.afterClosed().subscribe((item: Item) => {
+      if (item) {
+        tap.items.push(item);
+        this.service.addItem2Tap(tap, item);
+      }
+    }));
   }
 
   clearTap(tap: Tap) {
