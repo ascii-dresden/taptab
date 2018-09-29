@@ -30,9 +30,16 @@
           <span style="color: rgba(0,0,0,.54)">TOTAL</span>
           <span style="font-size: 24px">{{ getTotal(tap) | currency }}</span>
         </div>
-        <div class="button-row right">
-          <button mat-raised-button (click)="clearTap(tap)">Reset</button>
-          <button mat-raised-button color="primary" (click)="addItem(tap)">Add Item</button>
+        <div id="tap-actions">
+          <div>
+            <button mat-icon-button (click)="deleteTap(tap)">
+              <mat-icon aria-label="Remove Tap">delete</mat-icon>
+            </button>
+          </div>
+          <div class="button-row">
+            <button mat-raised-button (click)="clearTap(tap)">Reset</button>
+            <button mat-raised-button color="primary" (click)="addItem(tap)">Add Item</button>
+          </div>
         </div>
       </div>
     </mat-expansion-panel>

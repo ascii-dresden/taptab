@@ -77,6 +77,11 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.service.clearTap(tap);
   }
 
+  deleteTap(tap: Tap) {
+    this.taps = this.taps.filter((value: Tap) => tap !== value);
+    this.service.removeTap(tap);
+  }
+
   private loadTaps(): void {
     this.taps = this.service.getTaps();
   }

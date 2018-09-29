@@ -44,15 +44,13 @@ mat-accordion .mat-divider {
   line-height: 48px;
 }
 
-.button-row {
+#tap-actions {
   display: flex;
   padding-top: 8px;
-  padding-bottom: 8px;
+  justify-content: space-between;
+}
 
-  &.right {
-    justify-content: flex-end;
-  }
-
+.button-row {
   button {
     margin-left: 8px;
   }

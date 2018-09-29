@@ -57,14 +57,12 @@ export class AppService {
   }
 
   removeTap(tap: Tap): void {
-    const taps: Tap[] = this.getTaps();
-    this.setTaps(taps.filter((value: Tap) => tap !== value));
+    this.setTaps(this.getTaps().filter((value: Tap) => value.name !== tap.name));
   }
 
   clearTap(tap: Tap): void {
     const taps: Tap[] = this.getTaps();
     this.setTaps(taps.map((value: Tap) => {
-      console.log(tap, value, tap.name === value.name);
       if (tap.name === value.name) {
         value.items = [];
       }
