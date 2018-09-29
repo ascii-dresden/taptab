@@ -1,11 +1,6 @@
-sudo: required
-addons:
-  chrome: stable
-
 language: node_js
 node_js:
 - 8
-- 9
 
 branches:
   only:
@@ -22,13 +17,7 @@ before_script:
 
 script:
 - ng lint
-- ng test --watch=false
 - ng build --prod
-
-notifications:
-  email:
-    on_failure: never
-    on_success: never
 
 deploy:
   provider: pages
@@ -37,3 +26,8 @@ deploy:
   local_dir: dist/taptab
   on:
     branch: angular
+
+notifications:
+  email:
+    on_failure: never
+    on_success: never
