@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Item, Tap } from './model';
+import { default as json } from '../assets/catalog.json';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,16 @@ import { Item, Tap } from './model';
 export class AppService {
 
   getCatalog(): Item[] {
-    return JSON.parse(localStorage.getItem('catalog')) || [];
+    let catalog: Item[] = JSON.parse(localStorage.getItem('catalog')) || [];
+    console.log(catalog);
+
+    if (catalog.length === 0) {
+      catalog = json;
+      console.log(catalog);
+      this.setItems(catalog);
+    }
+
+    return catalog;
   }
 
   addItem(item: Item): void {
