@@ -37,10 +37,10 @@ export class AppComponent implements OnInit, AfterViewChecked {
   onSubmit() {
     if (this.newTapName) {
       this.service.addTap(this.newTapName);
+      this.taps.push({ name: this.newTapName, items: [] });
       this.newTapName = '';
     }
     this.toggleNewTapInput();
-    this.loadTaps();
   }
 
   getTotal(tap: Tap): number {
@@ -49,6 +49,11 @@ export class AppComponent implements OnInit, AfterViewChecked {
     } else {
       return 0;
     }
+  }
+
+  clearTap(tap: Tap) {
+    tap.items = [];
+    this.service.clearTap(tap);
   }
 
   private loadTaps(): void {

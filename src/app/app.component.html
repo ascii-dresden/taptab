@@ -30,6 +30,10 @@
           <span style="color: rgba(0,0,0,.54)">TOTAL</span>
           <span style="font-size: 24px">{{ getTotal(tap) | currency }}</span>
         </div>
+        <div class="button-row right">
+          <button mat-raised-button (click)="clearTap(tap)">Reset</button>
+          <!-- <button mat-raised-button color="primary">Add Item</button> -->
+        </div>
       </div>
     </mat-expansion-panel>
   </mat-accordion>

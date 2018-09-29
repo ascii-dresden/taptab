@@ -41,6 +41,17 @@ export class AppService {
     this.setTaps(taps.filter((value: Tap) => tap !== value));
   }
 
+  clearTap(tap: Tap): void {
+    const taps: Tap[] = this.getTaps();
+    this.setTaps(taps.map((value: Tap) => {
+      console.log(tap, value, tap.name === value.name);
+      if (tap.name === value.name) {
+        value.items = [];
+      }
+      return value;
+    }));
+  }
+
   private setTaps(taps: Tap[]): void {
     localStorage.setItem('taps', JSON.stringify(taps));
   }

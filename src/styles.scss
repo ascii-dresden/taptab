@@ -43,3 +43,17 @@ mat-accordion .mat-divider {
   margin-right: 16px;
   line-height: 48px;
 }
+
+.button-row {
+  display: flex;
+  padding-top: 8px;
+  padding-bottom: 8px;
+
+  &.right {
+    justify-content: flex-end;
+  }
+
+  button {
+    margin-left: 8px;
+  }
+}
