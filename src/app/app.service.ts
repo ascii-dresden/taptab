@@ -23,7 +23,7 @@ export class AppService {
 
   addItem(item: Item): void {
     const catalog: Item[] = this.getCatalog();
-    catalog.push(item);
+    catalog.push({ name: item.name, price: +item.price } as Item);
     this.setItems(catalog);
   }
 

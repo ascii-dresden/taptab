@@ -1,6 +1,6 @@
 <h4 mat-dialog-title>Catalog</h4>
 <mat-dialog-content>
-  <table mat-table [dataSource]="catalog">
+  <table mat-table [dataSource]="dataSource">
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -16,6 +16,16 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row class="clickable" *matRowDef="let row; columns: displayedColumns;" (click)="selectItem(row)"></tr>
   </table>
+
+  <form id="item-new-container" (ngSubmit)="onSubmit()" #newTapForm="ngForm">
+    <mat-form-field>
+      <input #name="ngModel" matInput id="item-new-name" name="name" type="text" placeholder="Name" [(ngModel)]="newItem.name">
+    </mat-form-field>
+    <mat-form-field>
+      <input #price="ngModel" matInput id="item-new-price" name="price" type="text" placeholder="Price" [(ngModel)]="newItem.price">
+    </mat-form-field>
+    <button type="submit" style="display: none">Submit</button>
+  </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close tabindex="-1">Close</button>

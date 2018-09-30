@@ -71,3 +71,15 @@ table {
     }
   }
 }
+
+#item-new-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+
+  .mat-form-field, button {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+  }
+}

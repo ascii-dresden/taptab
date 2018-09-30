@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MatTableDataSource } from '@angular/material';
 
 import { AppService } from './app.service';
 import { Item } from './model';
@@ -11,7 +11,9 @@ import { Item } from './model';
 export class ItemSelectionDialogComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'price'];
-  catalog: Item[] = [];
+  dataSource = new MatTableDataSource<Item>();
+
+  newItem: Item = {} as Item;
 
   constructor(private dialogRef: MatDialogRef<ItemSelectionDialogComponent>, private service: AppService) { }
 
@@ -23,7 +25,17 @@ export class ItemSelectionDialogComponent implements OnInit {
     this.dialogRef.close(item);
   }
 
+  onSubmit() {
+    if (this.newItem.name && this.newItem.price) {
+      const data = this.dataSource.data;
+      data.push(this.newItem);
+      this.dataSource.data = data;
+
+      this.service.addItem(this.newItem);
+    }
+  }
+
   private loadCatalog() {
-    this.catalog = this.service.getCatalog();
+    this.dataSource.data = this.service.getCatalog();
   }
 }

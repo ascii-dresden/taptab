@@ -11,6 +11,8 @@ import {
   MatDividerModule,
   MatDialogModule,
   MatTableModule,
+  MatFormFieldModule,
+  MatInputModule,
 } from '@angular/material';
 
 import { AppService } from './app.service';
@@ -34,6 +36,8 @@ import { ItemSelectionDialogComponent } from './item-selection.dialog.component'
     MatDividerModule,
     MatDialogModule,
     MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [AppService],
   bootstrap: [AppComponent],
