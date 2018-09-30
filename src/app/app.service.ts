@@ -10,11 +10,9 @@ export class AppService {
 
   getCatalog(): Item[] {
     let catalog: Item[] = JSON.parse(localStorage.getItem('catalog')) || [];
-    console.log(catalog);
 
     if (catalog.length === 0) {
       catalog = json;
-      console.log(catalog);
       this.setItems(catalog);
     }
 
