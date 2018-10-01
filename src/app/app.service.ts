@@ -54,6 +54,17 @@ export class AppService {
     }));
   }
 
+  removeItem4Tap(item: Item, tap: Tap) {
+    const taps: Tap[] = this.getTaps();
+    this.setTaps(taps.map((value: Tap) => {
+      if (tap.name === value.name) {
+        value.items = tap.items.filter((itemVal: Item) => itemVal !== item);
+      }
+
+      return value;
+    }));
+  }
+
   removeTap(tap: Tap): void {
     this.setTaps(this.getTaps().filter((value: Tap) => value.name !== tap.name));
   }

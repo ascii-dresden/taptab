@@ -22,6 +22,9 @@
           <mat-list-item role="listitem" *ngFor="let item of tap.items">
             {{ item.name }}
             <span style="flex: 1 1 auto;"></span>
+            <button mat-icon-button color="light" (click)="removeItem(item, tap)">
+              <mat-icon>close</mat-icon>
+            </button>
             <span class="item-price">{{ item.price | currency }}</span>
           </mat-list-item>
         </mat-list>

@@ -95,3 +95,7 @@ table {
 .mat-dialog-actions[align=between] {
   justify-content: space-between;
 }
+
+.mat-button.mat-light, .mat-icon-button.mat-light, .mat-stroked-button.mat-light {
+  color: #777 !important;
+}
