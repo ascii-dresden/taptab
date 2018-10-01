@@ -19,9 +19,9 @@ export class AppService {
     return catalog;
   }
 
-  addItem(item: Item): void {
+  addItem(...items: Item[]): void {
     const catalog: Item[] = this.getCatalog();
-    catalog.push({ name: item.name, price: +item.price } as Item);
+    items.forEach((item: Item) => catalog.push({ name: item.name, price: +item.price } as Item));
     this.setItems(catalog);
   }
 
@@ -44,11 +44,11 @@ export class AppService {
     this.setTaps(taps);
   }
 
-  addItem2Tap(tap: Tap, item: Item): void {
+  addItem2Tap(tap: Tap, ...item: Item[]): void {
     const taps: Tap[] = this.getTaps();
     this.setTaps(taps.map((value: Tap) => {
       if (tap.name === value.name) {
-        value.items.push(item);
+        value.items.push(...item);
       }
       return value;
     }));

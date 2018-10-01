@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { MatDialogRef, MatTableDataSource } from '@angular/material';
+
+import { fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 import { AppService } from './app.service';
 import { Item } from './model';
@@ -8,12 +11,16 @@ import { Item } from './model';
   selector: 'ascii-item-selection-dialog',
   templateUrl: './item-selection.dialog.component.html'
 })
-export class ItemSelectionDialogComponent implements OnInit {
+export class ItemSelectionDialogComponent implements OnInit, AfterViewInit {
+
+  private _selectedItems: Item[] = [];
 
   displayedColumns: string[] = ['name', 'price'];
   dataSource = new MatTableDataSource<Item>();
 
   newItem: Item = {} as Item;
+
+  @ViewChild('table') table: ElementRef;
 
   constructor(private dialogRef: MatDialogRef<ItemSelectionDialogComponent>, private service: AppService) { }
 
@@ -21,8 +28,15 @@ export class ItemSelectionDialogComponent implements OnInit {
     this.loadCatalog();
   }
 
+  ngAfterViewInit(): void {
+    fromEvent(this.table.nativeElement, 'click').pipe(
+      debounceTime(2000),
+    ).subscribe(() => this.dialogRef.close(this._selectedItems));
+  }
+
   selectItem(item: Item) {
-    this.dialogRef.close(item);
+    this._selectedItems.push(item);
+    console.log(item);
   }
 
   onSubmit() {
