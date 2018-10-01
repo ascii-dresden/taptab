@@ -62,7 +62,7 @@ export class AppComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   addItem(tap: Tap) {
-    const dialogRef = this.dialog.open(ItemSelectionDialogComponent, { width: '640px' });
+    const dialogRef = this.dialog.open(ItemSelectionDialogComponent, { width: '640px', data: { tapname: tap.name } });
 
     this._subscription.add(dialogRef.afterClosed().subscribe((items: Item[]) => {
       if (items && items.length > 0) {

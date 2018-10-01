@@ -83,3 +83,15 @@ table {
     max-width: 100%;
   }
 }
+
+.dialog-meta {
+  font-size: 0.85rem;
+}
+
+#item-count {
+  margin-right: 1.2rem;
+}
+
+.mat-dialog-actions[align=between] {
+  justify-content: space-between;
+}

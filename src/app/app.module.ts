@@ -13,6 +13,7 @@ import {
   MatTableModule,
   MatFormFieldModule,
   MatInputModule,
+  MatChipsModule,
 } from '@angular/material';
 
 import { AppService } from './app.service';
@@ -38,6 +39,7 @@ import { ItemSelectionDialogComponent } from './item-selection.dialog.component'
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
+    MatChipsModule,
   ],
   providers: [AppService],
   bootstrap: [AppComponent],

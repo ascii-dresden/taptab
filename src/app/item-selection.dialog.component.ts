@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { MatDialogRef, MatTableDataSource } from '@angular/material';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Inject } from '@angular/core';
+import { MatDialogRef, MatTableDataSource, MAT_DIALOG_DATA } from '@angular/material';
 
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -13,16 +13,17 @@ import { Item } from './model';
 })
 export class ItemSelectionDialogComponent implements OnInit, AfterViewInit {
 
-  private _selectedItems: Item[] = [];
-
   displayedColumns: string[] = ['name', 'price'];
   dataSource = new MatTableDataSource<Item>();
 
+  selectedItems: Item[] = [];
   newItem: Item = {} as Item;
+  totalSelected = 0;
 
   @ViewChild('table') table: ElementRef;
 
-  constructor(private dialogRef: MatDialogRef<ItemSelectionDialogComponent>, private service: AppService) { }
+  constructor(private dialogRef: MatDialogRef<ItemSelectionDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { tapname: string }, private service: AppService) { }
 
   ngOnInit(): void {
     this.loadCatalog();
@@ -31,12 +32,13 @@ export class ItemSelectionDialogComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     fromEvent(this.table.nativeElement, 'click').pipe(
       debounceTime(2000),
-    ).subscribe(() => this.dialogRef.close(this._selectedItems));
+    ).subscribe(() => this.dialogRef.close(this.selectedItems));
   }
 
   selectItem($event: MouseEvent, item: Item) {
     $event.srcElement.parentElement.style.backgroundColor = '#f5f5f5';
-    this._selectedItems.push(item);
+    this.selectedItems.push(item);
+    this.calcTotal();
   }
 
   onSubmit() {
@@ -46,6 +48,14 @@ export class ItemSelectionDialogComponent implements OnInit, AfterViewInit {
       this.dataSource.data = data;
 
       this.service.addItem(this.newItem);
+    }
+  }
+
+  calcTotal(): void {
+    if (this.selectedItems.length > 0) {
+      this.totalSelected = this.selectedItems.map(item => item.price).reduce((a, b) => a + b) || 0;
+    } else {
+      this.totalSelected = 0;
     }
   }
 
