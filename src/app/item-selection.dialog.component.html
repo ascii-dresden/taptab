@@ -15,7 +15,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row class="clickable" *matRowDef="let row; columns: displayedColumns;" (click)="selectItem(row)"></tr>
+      <tr mat-row class="clickable" *matRowDef="let row; columns: displayedColumns;" (click)="selectItem($event, row)"></tr>
     </table>
   </div>
 

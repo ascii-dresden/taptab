@@ -34,9 +34,9 @@ export class ItemSelectionDialogComponent implements OnInit, AfterViewInit {
     ).subscribe(() => this.dialogRef.close(this._selectedItems));
   }
 
-  selectItem(item: Item) {
+  selectItem($event: MouseEvent, item: Item) {
+    $event.srcElement.parentElement.style.backgroundColor = '#f5f5f5';
     this._selectedItems.push(item);
-    console.log(item);
   }
 
   onSubmit() {
