@@ -19,10 +19,10 @@
 
   <form id="item-new-container" (ngSubmit)="onSubmit()" #newTapForm="ngForm">
     <mat-form-field>
-      <input #name="ngModel" matInput id="item-new-name" name="name" type="text" placeholder="Name" [(ngModel)]="newItem.name">
+      <input #name="ngModel" matInput tabindex="-1" id="item-new-name" name="name" type="text" placeholder="Name" [(ngModel)]="newItem.name">
     </mat-form-field>
     <mat-form-field>
-      <input #price="ngModel" matInput id="item-new-price" name="price" type="text" placeholder="Price" [(ngModel)]="newItem.price">
+      <input #price="ngModel" matInput tabindex="-1" id="item-new-price" name="price" type="text" placeholder="Price" [(ngModel)]="newItem.price">
     </mat-form-field>
     <button type="submit" style="display: none">Submit</button>
   </form>
