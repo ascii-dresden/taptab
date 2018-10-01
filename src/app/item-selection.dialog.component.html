@@ -2,7 +2,7 @@
   Catalog
   <span style="float: right" *ngIf="selectedItems.length > 0">
     <span id="item-count" class="dialog-meta">{{ selectedItems.length }} selected</span>
-    <span id="items-total" class="dialog-meta">{{ totalSelected | currency }} in Total</span>
+    <span id="items-total" class="dialog-meta">{{ totalSelected | currency:'EUR' }} in Total</span>
   </span>
 </h4>
 <mat-dialog-content>
@@ -17,7 +17,7 @@
       <!-- Weight Column -->
       <ng-container matColumnDef="price">
         <th mat-header-cell *matHeaderCellDef> Price </th>
-        <td mat-cell *matCellDef="let item"> {{ item.price | currency }} </td>
+        <td mat-cell *matCellDef="let item"> {{ item.price | currency:'EUR' }} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

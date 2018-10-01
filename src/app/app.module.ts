@@ -1,5 +1,6 @@
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import {
@@ -19,6 +20,9 @@ import {
 import { AppService } from './app.service';
 import { AppComponent } from './app.component';
 import { ItemSelectionDialogComponent } from './item-selection.dialog.component';
+import localeDe from '@angular/common/locales/de';
+
+registerLocaleData(localeDe, 'de');
 
 @NgModule({
   declarations: [
@@ -41,7 +45,10 @@ import { ItemSelectionDialogComponent } from './item-selection.dialog.component'
     MatInputModule,
     MatChipsModule,
   ],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: LOCALE_ID, useValue: 'de' },
+  ],
   bootstrap: [AppComponent],
   entryComponents: [ItemSelectionDialogComponent]
 })

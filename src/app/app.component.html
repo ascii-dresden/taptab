@@ -1,5 +1,5 @@
 <mat-toolbar id="header" role="navigation" class="mat-elevation-z2" [style.backgroundColor]="showNewTapInput ? '#ffffff' : ''">
-  <h1 [style.display]="showNewTapInput ? 'none' : 'flex'">TapTab</h1>
+  <h1 [style.display]="showNewTapInput ? 'none' : 'flex'">ascii TapTab</h1>
   <form (ngSubmit)="onSubmit()" #newTapForm="ngForm" [style.display]="showNewTapInput ? 'flex' : 'none'">
     <input #newTap #name="ngModel" id="tap-add-input" name="name" type="text" placeholder="New Tap" [(ngModel)]="newTapName">
     <button type="submit" style="display: none">Submit</button>
@@ -15,7 +15,7 @@
     <mat-expansion-panel *ngFor="let tap of taps">
       <mat-expansion-panel-header>
         <mat-panel-title>{{ tap.name }}</mat-panel-title>
-        <mat-panel-description>{{ getTotal(tap) | currency }}</mat-panel-description>
+        <mat-panel-description>{{ getTotal(tap) | currency:'EUR' }}</mat-panel-description>
       </mat-expansion-panel-header>
       <div mat-expansion-panel-content>
         <mat-list role="list">
@@ -25,13 +25,13 @@
             <button mat-icon-button color="light" (click)="removeItem(item, tap)">
               <mat-icon>close</mat-icon>
             </button>
-            <span class="item-price">{{ item.price | currency }}</span>
+            <span class="item-price">{{ item.price | currency:'EUR' }}</span>
           </mat-list-item>
         </mat-list>
         <mat-divider></mat-divider>
         <div class="item-sum-container">
           <span style="color: rgba(0,0,0,.54)">TOTAL</span>
-          <span style="font-size: 24px">{{ getTotal(tap) | currency }}</span>
+          <span style="font-size: 24px">{{ getTotal(tap) | currency:'EUR' }}</span>
         </div>
         <div id="tap-actions">
           <div>
@@ -40,7 +40,7 @@
             </button>
           </div>
           <div class="button-row">
-            <button mat-raised-button (click)="clearTap(tap)">Reset</button>
+            <button mat-raised-button (click)="clearTap(tap)">Clear</button>
             <button mat-raised-button color="primary" (click)="addItem(tap)">Add Item</button>
           </div>
         </div>
