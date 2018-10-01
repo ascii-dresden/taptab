@@ -6,7 +6,6 @@ branches:
   only:
   - master
   - develop
-  - angular
 
 cache:
   directories:
@@ -25,7 +24,7 @@ deploy:
   github_token: $GITHUB_TOKEN
   local_dir: dist/taptab
   on:
-    branch: angular
+    branch: master
 
 notifications:
   email:
