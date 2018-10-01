@@ -1,0 +1,101 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Roboto', sans-serif; }
+
+#header.mat-toolbar {
+  h1 {
+    display: flex;
+  }
+
+  form {
+    display: none;
+    flex: 1;
+    position: relative;
+    padding-right: 16px;
+  }
+
+  input {
+    flex: 1;
+    outline: none;
+    border: 0;
+    height: 64px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    font-size: 24px;
+
+    @media screen and (max-width: 600px) {
+      height: 56px;
+    }
+  }
+}
+
+mat-accordion .mat-divider {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.item-price {
+  font-size: 12px
+}
+
+.item-sum-container {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 16px;
+  margin-right: 16px;
+  line-height: 48px;
+}
+
+#tap-actions {
+  display: flex;
+  padding-top: 8px;
+  justify-content: space-between;
+}
+
+.button-row {
+  button {
+    margin-left: 8px;
+  }
+}
+
+table {
+  display: table;
+  width: 100%;
+
+  tr.clickable {
+    &:hover, &:focus {
+      background-color: #f5f5f5;
+      cursor: pointer;
+    }
+  }
+}
+
+#item-new-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+
+  .mat-form-field, button {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+  }
+}
+
+.dialog-meta {
+  font-size: 0.85rem;
+}
+
+#item-count {
+  margin-right: 1.2rem;
+}
+
+.mat-dialog-actions[align=between] {
+  justify-content: space-between;
+}
+
+.mat-button.mat-light, .mat-icon-button.mat-light, .mat-stroked-button.mat-light {
+  color: rgba(0,0,0,.54) !important;
+}
